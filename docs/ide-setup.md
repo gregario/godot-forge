@@ -10,7 +10,7 @@ Godot Forge works with any IDE that supports the [Model Context Protocol](https:
 ## Claude Code
 
 ```bash
-claude mcp add godot-forge -- npx -y @gregario/godot-forge
+claude mcp add godot-forge -- npx -y godot-forge
 ```
 
 ## Cursor
@@ -21,7 +21,7 @@ Add to `.cursor/mcp.json`:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -35,7 +35,7 @@ Add to `.vscode/mcp.json`:
   "servers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -49,7 +49,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -64,7 +64,7 @@ Add to `settings.json`:
     "godot-forge": {
       "command": {
         "path": "npx",
-        "args": ["-y", "@gregario/godot-forge"]
+        "args": ["-y", "godot-forge"]
       }
     }
   }
@@ -79,7 +79,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -91,7 +91,7 @@ Add to `.codex/config.toml`:
 ```toml
 [mcp_servers.godot-forge]
 command = "npx"
-args = ["-y", "@gregario/godot-forge"]
+args = ["-y", "godot-forge"]
 ```
 
 ## Gemini CLI
@@ -102,7 +102,7 @@ Add to `.gemini/settings.json`:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -116,7 +116,7 @@ Settings → Tools → AI Assistant → MCP Servers → Add:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -129,7 +129,7 @@ Add to `.continue/config.yaml`:
 mcpServers:
   - name: godot-forge
     command: npx
-    args: ["-y", "@gregario/godot-forge"]
+    args: ["-y", "godot-forge"]
 ```
 
 ## Cline
@@ -140,7 +140,7 @@ Add to `cline_mcp_settings.json`:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -154,7 +154,7 @@ Add to `.roo/mcp.json`:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -168,7 +168,7 @@ Add to `~/.config/mcphub/servers.json`:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -182,7 +182,7 @@ Add to `opencode.json`:
   "mcp": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -196,7 +196,7 @@ Add to `.kiro/settings/mcp.json`:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"]
+      "args": ["-y", "godot-forge"]
     }
   }
 }
@@ -213,7 +213,7 @@ If auto-detection doesn't find your Godot binary, set it explicitly:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge"],
+      "args": ["-y", "godot-forge"],
       "env": {
         "GODOT_PATH": "/path/to/godot"
       }
@@ -231,7 +231,7 @@ To point at a specific Godot project:
   "mcpServers": {
     "godot-forge": {
       "command": "npx",
-      "args": ["-y", "@gregario/godot-forge", "--project", "/path/to/project"]
+      "args": ["-y", "godot-forge", "--project", "/path/to/project"]
     }
   }
 }
