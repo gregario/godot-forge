@@ -11,6 +11,10 @@
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-compatible-purple.svg" alt="MCP Compatible"></a>
 </p>
 
+<p align="center">
+  <a href="https://glama.ai/mcp/servers/gregario/godot-forge"><img width="380" height="200" src="https://glama.ai/mcp/servers/gregario/godot-forge/badge" alt="Glama MCP Server" /></a>
+</p>
+
 ---
 
 AI coding assistants are structurally bad at GDScript. Models trained on data skewed towards Godot 3 hallucinate deprecated APIs — `yield` instead of `await`, `KinematicBody` instead of `CharacterBody3D`, `export var` instead of `@export var`. Godot Forge fixes this.
