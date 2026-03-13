@@ -1,0 +1,199 @@
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { z } from "zod";
+import type { ServerContext } from "../register-tools.js";
+
+/**
+ * Godot 3 → 4 migration mapping.
+ * This is the headline differentiator vs other docs servers.
+ */
+const MIGRATION_MAP: Record<string, { replacement: string; note: string }> = {
+  // Classes
+  KinematicBody: { replacement: "CharacterBody3D", note: "KinematicBody was renamed to CharacterBody3D in Godot 4" },
+  KinematicBody2D: { replacement: "CharacterBody2D", note: "KinematicBody2D was renamed to CharacterBody2D in Godot 4" },
+  Spatial: { replacement: "Node3D", note: "Spatial was renamed to Node3D in Godot 4" },
+  Area: { replacement: "Area3D", note: "Area was renamed to Area3D in Godot 4" },
+  RigidBody: { replacement: "RigidBody3D", note: "RigidBody was renamed to RigidBody3D in Godot 4" },
+  StaticBody: { replacement: "StaticBody3D", note: "StaticBody was renamed to StaticBody3D in Godot 4" },
+  CollisionShape: { replacement: "CollisionShape3D", note: "CollisionShape was renamed to CollisionShape3D in Godot 4" },
+  MeshInstance: { replacement: "MeshInstance3D", note: "MeshInstance was renamed to MeshInstance3D in Godot 4" },
+  Camera: { replacement: "Camera3D", note: "Camera was renamed to Camera3D in Godot 4" },
+  Light: { replacement: "Light3D", note: "Light was renamed to Light3D in Godot 4" },
+  DirectionalLight: { replacement: "DirectionalLight3D", note: "DirectionalLight was renamed to DirectionalLight3D in Godot 4" },
+  OmniLight: { replacement: "OmniLight3D", note: "OmniLight was renamed to OmniLight3D in Godot 4" },
+  SpotLight: { replacement: "SpotLight3D", note: "SpotLight was renamed to SpotLight3D in Godot 4" },
+  RayCast: { replacement: "RayCast3D", note: "RayCast was renamed to RayCast3D in Godot 4" },
+  Particles: { replacement: "GPUParticles3D", note: "Particles was renamed to GPUParticles3D in Godot 4" },
+  Particles2D: { replacement: "GPUParticles2D", note: "Particles2D was renamed to GPUParticles2D in Godot 4" },
+
+  // Methods & functions
+  yield: { replacement: "await", note: "yield(obj, 'signal') → await obj.signal" },
+  instance: { replacement: "instantiate()", note: "instance() was renamed to instantiate() in Godot 4" },
+  rand_range: { replacement: "randf_range() / randi_range()", note: "rand_range() was split into randf_range() and randi_range() in Godot 4" },
+  deg2rad: { replacement: "deg_to_rad()", note: "deg2rad() was renamed to deg_to_rad() in Godot 4" },
+  rad2deg: { replacement: "rad_to_deg()", note: "rad2deg() was renamed to rad_to_deg() in Godot 4" },
+  stepify: { replacement: "snapped()", note: "stepify() was renamed to snapped() in Godot 4" },
+  str2var: { replacement: "str_to_var()", note: "str2var() was renamed to str_to_var() in Godot 4" },
+  var2str: { replacement: "var_to_str()", note: "var2str() was renamed to var_to_str() in Godot 4" },
+  range_lerp: { replacement: "remap()", note: "range_lerp() was renamed to remap() in Godot 4" },
+
+  // Syntax
+  "export var": { replacement: "@export var", note: "export var → @export var (annotation syntax in Godot 4)" },
+  "onready var": { replacement: "@onready var", note: "onready var → @onready var (annotation syntax in Godot 4)" },
+  tool: { replacement: "@tool", note: "tool → @tool (annotation syntax in Godot 4)" },
+
+  // Constants
+  BUTTON_LEFT: { replacement: "MOUSE_BUTTON_LEFT", note: "BUTTON_LEFT was renamed to MOUSE_BUTTON_LEFT in Godot 4" },
+  BUTTON_RIGHT: { replacement: "MOUSE_BUTTON_RIGHT", note: "BUTTON_RIGHT was renamed to MOUSE_BUTTON_RIGHT in Godot 4" },
+  BUTTON_MIDDLE: { replacement: "MOUSE_BUTTON_MIDDLE", note: "BUTTON_MIDDLE was renamed to MOUSE_BUTTON_MIDDLE in Godot 4" },
+};
+
+// Placeholder for bundled docs — will be populated in task 4.1/4.6
+interface ClassDoc {
+  name: string;
+  description: string;
+  inherits: string;
+  properties: Array<{ name: string; type: string }>;
+  methods: Array<{ name: string; signature: string; description: string }>;
+  signals: Array<{ name: string; description: string }>;
+}
+
+// For now, docs are empty until the build script populates them
+let docsIndex: Map<string, ClassDoc> = new Map();
+
+function checkMigration(query: string): string | null {
+  // Direct match
+  if (MIGRATION_MAP[query]) {
+    const m = MIGRATION_MAP[query];
+    return `⚠️ Godot 3 API: ${m.note}\nGodot 4 equivalent: ${m.replacement}`;
+  }
+
+  // Case-insensitive check
+  const lower = query.toLowerCase();
+  for (const [key, val] of Object.entries(MIGRATION_MAP)) {
+    if (key.toLowerCase() === lower) {
+      return `⚠️ Godot 3 API: ${val.note}\nGodot 4 equivalent: ${val.replacement}`;
+    }
+  }
+
+  return null;
+}
+
+export function registerDocsSearch(server: McpServer, _ctx: ServerContext): void {
+  server.tool(
+    "godot_search_docs",
+    "Search Godot 4.x API documentation. Returns class overviews, method details, or fuzzy search results. Automatically detects Godot 3 API queries and suggests Godot 4 equivalents — the #1 source of AI-generated GDScript bugs.",
+    {
+      query: z
+        .string()
+        .describe(
+          "Class name (e.g., 'CharacterBody2D'), method (e.g., 'CharacterBody2D.move_and_slide'), or search term"
+        ),
+    },
+    { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
+    async (args) => {
+      const { query } = args;
+
+      // Check migration mapping first — headline feature
+      const migration = checkMigration(query);
+
+      // Check if this is a class.method query
+      const dotIndex = query.indexOf(".");
+      if (dotIndex !== -1) {
+        const className = query.substring(0, dotIndex);
+        const methodName = query.substring(dotIndex + 1);
+
+        const classDoc = docsIndex.get(className);
+        if (classDoc) {
+          const method = classDoc.methods.find((m) => m.name === methodName);
+          if (method) {
+            let text = `## ${className}.${method.name}\n\n`;
+            text += `**Signature:** ${method.signature}\n\n`;
+            text += method.description;
+            if (migration) text = migration + "\n\n---\n\n" + text;
+            return { content: [{ type: "text", text }] };
+          }
+        }
+      }
+
+      // Check for exact class match
+      const classDoc = docsIndex.get(query);
+      if (classDoc) {
+        let text = `## ${classDoc.name}\n\n`;
+        text += `**Inherits:** ${classDoc.inherits}\n\n`;
+        text += classDoc.description + "\n\n";
+        text += `### Properties (${classDoc.properties.length})\n`;
+        for (const p of classDoc.properties.slice(0, 20)) {
+          text += `- \`${p.name}: ${p.type}\`\n`;
+        }
+        if (classDoc.properties.length > 20) {
+          text += `- ... and ${classDoc.properties.length - 20} more\n`;
+        }
+        text += `\n### Methods (${classDoc.methods.length})\n`;
+        for (const m of classDoc.methods.slice(0, 20)) {
+          text += `- \`${m.signature}\`\n`;
+        }
+        if (classDoc.methods.length > 20) {
+          text += `- ... and ${classDoc.methods.length - 20} more\n`;
+        }
+        if (classDoc.signals.length > 0) {
+          text += `\n### Signals (${classDoc.signals.length})\n`;
+          for (const s of classDoc.signals) {
+            text += `- \`${s.name}\`\n`;
+          }
+        }
+        if (migration) text = migration + "\n\n---\n\n" + text;
+        return { content: [{ type: "text", text }] };
+      }
+
+      // If we only have a migration hint and no docs match
+      if (migration) {
+        return { content: [{ type: "text", text: migration }] };
+      }
+
+      // Fuzzy search across all classes/methods
+      const results: string[] = [];
+      for (const [, doc] of docsIndex) {
+        if (doc.name.toLowerCase().includes(query.toLowerCase())) {
+          results.push(`- **${doc.name}** — ${doc.description.substring(0, 100)}...`);
+        }
+        for (const m of doc.methods) {
+          if (m.name.toLowerCase().includes(query.toLowerCase())) {
+            results.push(`- **${doc.name}.${m.name}** — ${m.signature}`);
+          }
+        }
+      }
+
+      if (results.length > 0) {
+        const text = `## Search results for "${query}"\n\n${results.slice(0, 20).join("\n")}`;
+        return { content: [{ type: "text", text }] };
+      }
+
+      // Check migration map as last resort for partial matches
+      const partialMigrations: string[] = [];
+      for (const [key, val] of Object.entries(MIGRATION_MAP)) {
+        if (key.toLowerCase().includes(query.toLowerCase())) {
+          partialMigrations.push(`- **${key}** → ${val.replacement}: ${val.note}`);
+        }
+      }
+      if (partialMigrations.length > 0) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `No Godot 4 API matches for "${query}". Did you mean a Godot 3 API?\n\n${partialMigrations.join("\n")}`,
+            },
+          ],
+        };
+      }
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: `No results found for "${query}". Note: Full API docs will be available after running the docs build script. The Godot 3→4 migration mapping is available immediately.`,
+          },
+        ],
+      };
+    }
+  );
+}

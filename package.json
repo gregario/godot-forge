@@ -1,0 +1,51 @@
+{
+  "name": "@gregario/godot-forge",
+  "version": "0.1.0",
+  "description": "The definitive AI development companion for Godot 4 — MCP server with test runner, docs search, script analysis, and more",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "godot-forge": "dist/index.js"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts"
+  ],
+  "scripts": {
+    "build": "tsc && chmod +x dist/index.js",
+    "dev": "tsc --watch",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "godot",
+    "gdscript",
+    "gamedev",
+    "ai",
+    "model-context-protocol",
+    "testing",
+    "gut",
+    "gdunit4"
+  ],
+  "author": "gregario",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gregario/godot-forge"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
