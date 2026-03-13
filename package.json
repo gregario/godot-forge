@@ -1,6 +1,6 @@
 {
   "name": "godot-forge",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The definitive AI development companion for Godot 4 — MCP server with test runner, docs search, script analysis, and more",
   "type": "module",
   "main": "dist/index.js",
@@ -34,6 +34,7 @@
     "gut",
     "gdunit4"
   ],
+  "mcpName": "io.github.gregario/godot-forge",
   "author": "gregario",
   "license": "MIT",
   "repository": {

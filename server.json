@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.gregario/godot-forge",
+  "title": "Godot Forge",
+  "description": "Godot 4 MCP server — test runner, API docs, script analysis, scene parsing, LSP.",
+  "repository": {
+    "url": "https://github.com/gregario/godot-forge",
+    "source": "github"
+  },
+  "version": "0.1.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "godot-forge",
+      "version": "0.1.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Path to Godot 4.x binary (auto-detected if not set)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "name": "GODOT_PATH"
+        }
+      ]
+    }
+  ]
+}
