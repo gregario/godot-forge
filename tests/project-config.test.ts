@@ -8,7 +8,7 @@ describe("project.godot parsing", () => {
 
 [application]
 
-config/name="BeerBrew Tycoon"
+config/name="My Godot Game"
 config/features=PackedStringArray("4.3", "Forward Plus")
 run/main_scene="res://scenes/main.tscn"
 
@@ -32,7 +32,7 @@ move_right={
   it("extracts project name", () => {
     const match = sampleConfig.match(/config\/name="([^"]*)"/);
     expect(match).not.toBeNull();
-    expect(match![1]).toBe("BeerBrew Tycoon");
+    expect(match![1]).toBe("My Godot Game");
   });
 
   it("extracts Godot version from features", () => {

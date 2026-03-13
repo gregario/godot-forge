@@ -5,3 +5,5 @@ tmp-doctool/
 .env.*
 .claude/
 openspec/
+CLAUDE.md
+research/
