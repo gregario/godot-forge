@@ -17,6 +17,10 @@ AI coding assistants are structurally bad at GDScript. Models trained on data sk
 
 **8 tools. Zero config. Works with every MCP-compatible IDE.**
 
+<a href="https://glama.ai/mcp/servers/gregario/godot-forge">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/gregario/godot-forge/badge" alt="godot-forge MCP server" />
+</a>
+
 ## Install
 
 ```bash
