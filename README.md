@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">Godot Forge</h1>
-  <p align="center">The MCP server for Godot 4 — test runner, API docs, script analysis, and more.</p>
+  <p align="center">The MCP server for Godot 4. Test runner, API docs, script analysis, and more.</p>
 </p>
 
 <p align="center">
@@ -13,7 +13,7 @@
 
 ---
 
-AI coding assistants are structurally bad at GDScript. Models trained on data skewed towards Godot 3 hallucinate deprecated APIs — `yield` instead of `await`, `KinematicBody` instead of `CharacterBody3D`, `export var` instead of `@export var`. Godot Forge fixes this.
+AI coding assistants are structurally bad at GDScript. Models trained on data skewed towards Godot 3 hallucinate deprecated APIs (`yield` instead of `await`, `KinematicBody` instead of `CharacterBody3D`, `export var` instead of `@export var`). Godot Forge fixes this.
 
 **8 tools. Zero config. Works with every MCP-compatible IDE.**
 
@@ -156,7 +156,7 @@ Ask your AI: "Run the water profile tests"
 
 ### Godot 3→4 Migration Mapping
 
-The #1 reason AI writes broken GDScript. When your AI queries a deprecated API, it gets the correct Godot 4 equivalent instantly — 30+ mappings covering classes, methods, syntax, and constants.
+The #1 reason AI writes broken GDScript. When your AI queries a deprecated API, it gets the correct Godot 4 equivalent instantly (30+ mappings covering classes, methods, syntax, and constants).
 
 ```
 Query: "KinematicBody"  →  "Renamed to CharacterBody3D in Godot 4"
@@ -164,14 +164,14 @@ Query: "yield"          →  "yield(obj, 'signal') → await obj.signal"
 Query: "instance()"     →  "instance() → instantiate()"
 ```
 
-### Script Analysis — 10 Pitfalls
+### Script Analysis: 10 Pitfalls
 
 Every pitfall detected from real game development:
 
 | # | Pitfall | What It Catches |
 |---|---------|-----------------|
 | 1 | Godot 3→4 API | `yield`, `connect("signal")`, `export var`, `instance()` |
-| 2 | Giant scripts | Over 300 lines — should be split |
+| 2 | Giant scripts | Over 300 lines. Should be split |
 | 3 | `:=` on Variant | Type inference on `Dictionary.get()` causes parse errors |
 | 4 | Tight coupling | Excessive `get_node("../../...")` references |
 | 5 | Signal re-entrancy | Signal emitted between state changes |
@@ -187,7 +187,7 @@ Parses `.tscn` and `.tres` files. Detects deep nesting (>8 levels), oversized sc
 
 ### LSP Diagnostics
 
-Connects to Godot's built-in language server (runs automatically when the editor is open). Returns real compiler errors and warnings — no guesswork.
+Connects to Godot's built-in language server (runs automatically when the editor is open). Returns real compiler errors and warnings (no guesswork).
 
 > [!NOTE]
 > Requires the Godot editor to be running with your project open. All other tools work without the editor.
@@ -223,26 +223,26 @@ npx godot-forge --project /path/to/godot/project
 
 ## Requirements
 
-- **Node.js 18+** — for `npx` execution
-- **Godot 4.x** — auto-detected (optional for 6 of 8 tools)
-- **Any MCP-compatible IDE** — Claude Code, Cursor, VS Code, Windsurf, Zed, and [more](docs/ide-setup.md)
+- **Node.js 18+**: for `npx` execution
+- **Godot 4.x**: auto-detected (optional for 6 of 8 tools)
+- **Any MCP-compatible IDE**: Claude Code, Cursor, VS Code, Windsurf, Zed, and [more](docs/ide-setup.md)
 
 ## Design Principles
 
-- **Outcomes, not operations** — Each tool delivers a complete result, not raw API wrapping
-- **8 curated tools** — No 93-tool context bloat ([why this matters](https://modelcontextprotocol.io/docs/concepts/tools#best-practices))
-- **Progressive disclosure** — Summaries first, details on demand
-- **`spawn()` not `exec()`** — No command injection, no Windows quoting bugs
-- **Actionable errors** — Every error includes a suggestion the AI can act on
-- **Cross-platform** — macOS, Windows, Linux. Steam and non-Steam installs.
+- **Outcomes, not operations**: Each tool delivers a complete result, not raw API wrapping
+- **8 curated tools**: No 93-tool context bloat ([why this matters](https://modelcontextprotocol.io/docs/concepts/tools#best-practices))
+- **Progressive disclosure**: Summaries first, details on demand
+- **`spawn()` not `exec()`**: No command injection, no Windows quoting bugs
+- **Actionable errors**: Every error includes a suggestion the AI can act on
+- **Cross-platform**: macOS, Windows, Linux. Steam and non-Steam installs.
 
 ## Contributing
 
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-- **Bug reports** — [Open an issue](https://github.com/gregario/godot-forge/issues/new)
-- **Feature requests** — [Start a discussion](https://github.com/gregario/godot-forge/discussions)
-- **Pull requests** — Fork, branch, test, PR
+- **Bug reports**: [Open an issue](https://github.com/gregario/godot-forge/issues/new)
+- **Feature requests**: [Start a discussion](https://github.com/gregario/godot-forge/discussions)
+- **Pull requests**: Fork, branch, test, PR
 
 ### Development
 
@@ -265,7 +265,7 @@ claude mcp add godot-forge-dev -- node /path/to/godot-forge/dist/index.js
 
 See [ROADMAP.md](ROADMAP.md) for planned features.
 
-**Phase 2** — Input simulation, runtime scene tree inspection, performance profiling, shader validation, export/CI pipeline.
+**Phase 2**: Input simulation, runtime scene tree inspection, performance profiling, shader validation, export/CI pipeline.
 
 ## Licence
 
