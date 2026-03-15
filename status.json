@@ -1,0 +1,10 @@
+{
+  "version": "1.1.0",
+  "tools_count": 8,
+  "npm": { "published": true },
+  "glama": { "listed": true, "score_badge": true, "ownership_claimed": true },
+  "mcp_registry": { "registered": true, "mcp_name": "io.github.gregario/godot-forge" },
+  "awesome_mcp_servers": { "pr_submitted": true, "pr_url": "https://github.com/punkpeye/awesome-mcp-servers/pull/2608" },
+  "github": { "sponsor_enabled": false },
+  "ci": { "oidc_publishing": false }
+}
