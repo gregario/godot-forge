@@ -76,12 +76,13 @@ export function registerProjectInfo(server: McpServer, ctx: ServerContext): void
     { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
     async (args) => {
       if (!ctx.projectDir) {
-        return { content: [{ type: "text", text: formatError(projectNotFound()) }] };
+        return { isError: true, content: [{ type: "text", text: formatError(projectNotFound()) }] };
       }
 
       const config = parseProjectGodot(ctx.projectDir);
       if (!config) {
         return {
+          isError: true,
           content: [
             {
               type: "text",

@@ -226,7 +226,7 @@ export function registerSceneAnalysis(server: McpServer, ctx: ServerContext): vo
     { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
     async (args) => {
       if (!ctx.projectDir) {
-        return { content: [{ type: "text", text: formatError(projectNotFound()) }] };
+        return { isError: true, content: [{ type: "text", text: formatError(projectNotFound()) }] };
       }
 
       const safeResult = resolveSafePath(ctx.projectDir, args.path);
@@ -236,6 +236,7 @@ export function registerSceneAnalysis(server: McpServer, ctx: ServerContext): vo
 
       if (!existsSync(safeResult.path)) {
         return {
+          isError: true,
           content: [
             {
               type: "text",

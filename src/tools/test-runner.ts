@@ -195,10 +195,10 @@ export function registerTestRunner(server: McpServer, ctx: ServerContext): void 
     { readOnlyHint: false, idempotentHint: true, openWorldHint: false },
     async (args) => {
       if (!ctx.projectDir) {
-        return { content: [{ type: "text", text: formatError(projectNotFound()) }] };
+        return { isError: true, content: [{ type: "text", text: formatError(projectNotFound()) }] };
       }
       if (!ctx.godotBinary) {
-        return { content: [{ type: "text", text: formatError(godotNotFound()) }] };
+        return { isError: true, content: [{ type: "text", text: formatError(godotNotFound()) }] };
       }
 
       const hasGut = existsSync(resolve(ctx.projectDir, "addons", "gut"));
@@ -206,6 +206,7 @@ export function registerTestRunner(server: McpServer, ctx: ServerContext): void 
 
       if (!hasGut && !hasGdUnit4) {
         return {
+          isError: true,
           content: [
             {
               type: "text",
@@ -308,6 +309,7 @@ export function registerTestRunner(server: McpServer, ctx: ServerContext): void 
 
         if (message.includes("timed out")) {
           return {
+            isError: true,
             content: [
               {
                 type: "text",
@@ -323,6 +325,7 @@ export function registerTestRunner(server: McpServer, ctx: ServerContext): void 
         }
 
         return {
+          isError: true,
           content: [
             {
               type: "text",

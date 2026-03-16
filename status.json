@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "0.1.2",
   "tools_count": 8,
   "npm": { "published": true },
   "glama": { "listed": true, "score_badge": true, "ownership_claimed": true },

@@ -85,15 +85,16 @@ export function registerScreenshot(server: McpServer, ctx: ServerContext): void 
     { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
     async (args) => {
       if (!ctx.projectDir) {
-        return { content: [{ type: "text", text: formatError(projectNotFound()) }] };
+        return { isError: true, content: [{ type: "text", text: formatError(projectNotFound()) }] };
       }
       if (!ctx.godotBinary) {
-        return { content: [{ type: "text", text: formatError(godotNotFound()) }] };
+        return { isError: true, content: [{ type: "text", text: formatError(godotNotFound()) }] };
       }
 
       // Check for display availability
       if (process.platform === "linux" && !process.env.DISPLAY && !process.env.WAYLAND_DISPLAY) {
         return {
+          isError: true,
           content: [
             {
               type: "text",
@@ -128,6 +129,7 @@ export function registerScreenshot(server: McpServer, ctx: ServerContext): void 
 
       if (!scenePath) {
         return {
+          isError: true,
           content: [
             {
               type: "text",
@@ -171,6 +173,7 @@ export function registerScreenshot(server: McpServer, ctx: ServerContext): void 
 
           if (!screenshotPath) {
             return {
+              isError: true,
               content: [
                 {
                   type: "text",
@@ -208,6 +211,7 @@ export function registerScreenshot(server: McpServer, ctx: ServerContext): void 
       } catch (err) {
         const message = err instanceof Error ? err.message : "Unknown error";
         return {
+          isError: true,
           content: [
             {
               type: "text",

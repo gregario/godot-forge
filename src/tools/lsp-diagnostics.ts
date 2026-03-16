@@ -283,7 +283,7 @@ export function registerLspDiagnostics(server: McpServer, ctx: ServerContext): v
     { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
     async (args) => {
       if (!ctx.projectDir) {
-        return { content: [{ type: "text", text: formatError(projectNotFound()) }] };
+        return { isError: true, content: [{ type: "text", text: formatError(projectNotFound()) }] };
       }
 
       const port = args.port ?? 6005;
@@ -295,6 +295,7 @@ export function registerLspDiagnostics(server: McpServer, ctx: ServerContext): v
       const connected = await lspClient.connect(port);
       if (!connected) {
         return {
+          isError: true,
           content: [
             {
               type: "text",
@@ -313,6 +314,7 @@ export function registerLspDiagnostics(server: McpServer, ctx: ServerContext): v
       const initOk = await lspClient.initialize(ctx.projectDir);
       if (!initOk) {
         return {
+          isError: true,
           content: [
             {
               type: "text",
@@ -343,6 +345,7 @@ export function registerLspDiagnostics(server: McpServer, ctx: ServerContext): v
         // Project-wide: no efficient way to get all diagnostics without opening every file.
         // Return a helpful message suggesting per-file usage.
         return {
+          isError: true,
           content: [
             {
               type: "text",
@@ -363,6 +366,7 @@ export function registerLspDiagnostics(server: McpServer, ctx: ServerContext): v
         lspClient = null;
 
         return {
+          isError: true,
           content: [
             {
               type: "text",

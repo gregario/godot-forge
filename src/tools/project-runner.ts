@@ -33,12 +33,12 @@ export function registerProjectRunner(server: McpServer, ctx: ServerContext): vo
     { readOnlyHint: false, idempotentHint: false, openWorldHint: false },
     async (args) => {
       if (!ctx.projectDir) {
-        return { content: [{ type: "text", text: formatError(projectNotFound()) }] };
+        return { isError: true, content: [{ type: "text", text: formatError(projectNotFound()) }] };
       }
 
       if (args.action === "start") {
         if (!ctx.godotBinary) {
-          return { content: [{ type: "text", text: formatError(godotNotFound()) }] };
+          return { isError: true, content: [{ type: "text", text: formatError(godotNotFound()) }] };
         }
 
         if (runningProcess) {
