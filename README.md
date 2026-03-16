@@ -9,6 +9,7 @@
   <a href="https://github.com/gregario/godot-forge/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg" alt="Node.js 18+"></a>
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-compatible-purple.svg" alt="MCP Compatible"></a>
+  <a href="https://glama.ai/mcp/servers/gregario/godot-forge"><img src="https://glama.ai/mcp/servers/gregario/godot-forge/badges/score.svg" alt="godot-forge MCP server"></a>
 </p>
 
 ---
