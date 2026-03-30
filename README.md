@@ -197,6 +197,10 @@ Connects to Godot's built-in language server (runs automatically when the editor
 
 Captures the game viewport as a PNG image. Loads the project's main scene (or a specified scene), waits for rendering, and returns the screenshot as base64 for the AI to see.
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/gregario-godot-forge).
+
 ## Configuration
 
 ### Godot Binary
