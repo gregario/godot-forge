@@ -1,6 +1,6 @@
 {
   "name": "godot-forge",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "The definitive AI development companion for Godot 4 — MCP server with test runner, docs search, script analysis, and more",
   "type": "module",
   "main": "dist/index.js",
