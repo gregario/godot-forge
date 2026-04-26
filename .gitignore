@@ -1,6 +1,7 @@
 node_modules/
 dist/
 tmp-doctool/
+.mcp-qa/
 *.env
 .env.*
 .claude/

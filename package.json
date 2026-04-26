@@ -10,10 +10,12 @@
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",
-    "dist/**/*.d.ts"
+    "dist/**/*.d.ts",
+    "dist/data/*.json"
   ],
   "scripts": {
-    "build": "tsc && chmod +x dist/index.js",
+    "build": "tsc && tsx scripts/copy-data.ts && chmod +x dist/index.js",
+    "build:docs": "tsx scripts/build-docs.ts",
     "dev": "tsc --watch",
     "lint": "tsc --noEmit",
     "test": "vitest run",
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   }
